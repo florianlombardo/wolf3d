@@ -1,2 +1,2 @@
-# raytracing_test
-Test project made to understand how raytracing works
+# wolf3d
+oui
