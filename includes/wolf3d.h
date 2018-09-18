@@ -41,6 +41,7 @@ typedef struct	s_env
 	SDL_Renderer	*rend;
 	SDL_Texture	*tex;
 	SDL_Surface	*icon;
+	char		*map;
 }				t_env;
 
 void			raycasting(t_env *e);

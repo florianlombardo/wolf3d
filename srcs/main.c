@@ -36,6 +36,12 @@ static int		win_init(t_env *e)
 		return (0);
 	}
 	SDL_SetWindowIcon(e->win, e->icon);
+	if (!(e->tex = SDL_CreateTexture(e->rend, SDL_PIXELFORMAT_RGBA8888,
+		SDL_TEXTUREACCESS_TARGET, WID, HEI)))
+	{
+		dprintf(1, "SDL_CreateTexture() error: %s\n", SDL_GetError());
+		return (0);
+	}
 	return (1);
 }
 
@@ -43,6 +49,8 @@ static void		quit(t_env *e, int status)
 {
 	if (e->icon)
 		SDL_FreeSurface(e->icon);
+	if (e->tex)
+		SDL_DestroyTexture(e->tex);
 	if (e->rend)
 		SDL_DestroyRenderer(e->rend);
 	if (e->win)
@@ -126,12 +134,14 @@ void			raycasting(t_env *e)
 	t_ipos	onmap;
 	t_ipos	step;
 	int		x;
+	int		y;
 	int		hit;
 	int		side;
 	int		height;
 	int		start;
 	int		end;
 
+	SDL_SetRenderTarget(e->rend, e->tex);
 	x = -1;
 	while (++x < WID)
 	{
@@ -187,27 +197,22 @@ void			raycasting(t_env *e)
 			start = 0;
 		if ((end = height / 2 + HEI / 2) >= HEI)
 			end = HEI - 1;
-		/*y = start - 1;
-		if (!side)
-			while (++y < end)
-				mlx_pixel_put(e->mlx, e->win, x, y, 0x0000ff);
-		else
-			while (++y < end)
-				mlx_pixel_put(e->mlx, e->win, x, y, 0x000088);
-		while (++y < HEI)
-		{
-			mlx_pixel_put(e->mlx, e->win, x, y, 0xa9a9a9);
-			mlx_pixel_put(e->mlx, e->win, x, HEI - y - 1, 0xa9a9a9);
-		}*/
-		SDL_SetRenderDrawColor(e->rend, 169, 169, 169, 255);
-		SDL_RenderDrawLine(e->rend, x, 0, x, start);
-		SDL_RenderDrawLine(e->rend, x, end, x, HEI - 1);
+		y = start - 1;
 		if (!side)
 			SDL_SetRenderDrawColor(e->rend, 0, 0, 255, 255);
 		else
 			SDL_SetRenderDrawColor(e->rend, 0, 0, 136, 255);
-		SDL_RenderDrawLine(e->rend, x, start, x, end);
+		while (++y < end)
+			SDL_SetRenderDrawPoint(e->rend, x, y);
+		SDL_SetRenderDrawColor(169, 169, 169, 255);
+		while (++y < HEI)
+		{
+			SDL_SetRenderDrawPoint(e->rend, x, y);
+			SDL_SetRenderDrawPoint(e->rens, x, HEI - y - 1);
+		}
 	}
+	SDL_SetRenderTarget(e->rend, NULL);
+	SDL_RenderCopy(e->rend, e->tex, NULL, NULL);
 	SDL_RenderPresent(e->rend);
 }
 
