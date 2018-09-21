@@ -15,6 +15,10 @@
 # define HEI 600
 # define FOV 60
 
+# define COS 0.995004
+# define PSIN 0.099833
+# define NSIN -0.099833
+
 typedef struct	s_ipos
 {
 	int			x;
@@ -40,8 +44,8 @@ typedef struct	s_env
 	SDL_Window	*win;
 	SDL_Renderer	*rend;
 	SDL_Texture	*tex;
+	SDL_Surface	*wall;
 	SDL_Surface	*icon;
-	char		*map;
 }				t_env;
 
 void			raycasting(t_env *e);
