@@ -6,7 +6,7 @@
 /*   By: flombard <flombard@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/09/21 06:17:58 by flombard     #+#   ##    ##    #+#       */
-/*   Updated: 2018/10/01 16:24:38 by flombard    ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/10/26 18:02:00 by flombard    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -22,18 +22,38 @@ static void	rotating_view(t_env *e, SDL_Event event)
 	oldplane = e->p.plane.x;
 	if (event.motion.type == SDL_MOUSEMOTION && event.motion.xrel < 0)
 	{
+		e->p.dir.x = e->p.dir.x * COS - e->p.dir.y * NSIN;
+		e->p.dir.y = olddir * NSIN + e->p.dir.y * COS;
+		e->p.plane.x = e->p.plane.x * COS - e->p.plane.y * NSIN;
+		e->p.plane.y = oldplane * NSIN + e->p.plane.y * COS;
+		e->change = 1;
+	}
+	else if (event.motion.type == SDL_MOUSEMOTION && event.motion.xrel > 0)
+	{
 		e->p.dir.x = e->p.dir.x * COS - e->p.dir.y * PSIN;
 		e->p.dir.y = olddir * PSIN + e->p.dir.y * COS;
 		e->p.plane.x = e->p.plane.x * COS - e->p.plane.y * PSIN;
 		e->p.plane.y = oldplane * PSIN + e->p.plane.y * COS;
 		e->change = 1;
 	}
-	else if (event.motion.type == SDL_MOUSEMOTION && event.motion.xrel > 0)
+}
+
+static void	starffing(t_env *e, SDL_Event event)
+{
+	double	oldx;
+
+	oldx = e->p.dir.x;
+	if (event.key.keysym.sym == SDLK_a && event.type == SDL_KEYDOWN)
 	{
-		e->p.dir.x = e->p.dir.x * COS - e->p.dir.y * NSIN;
-		e->p.dir.y = olddir * NSIN + e->p.dir.y * COS;
-		e->p.plane.x = e->p.plane.x * COS - e->p.plane.y * NSIN;
-		e->p.plane.y = oldplane * NSIN + e->p.plane.y * COS;
+		printf("%f %f ", e->p.pos.x, e->p.pos.y);
+		e->p.pos.x += 0.3 * (COS45 * (e->p.dir.x - oldx) - SIN45 * (e->p.dir.y - e->p.pos.y) + oldx);
+		e->p.pos.y += 0.3 * (SIN45 * (e->p.dir.x - oldx) + COS45 * (e->p.dir.y - e->p.pos.y) + e->p.pos.y);
+		printf("%f %f\n", e->p.pos.x, e->p.pos.y);
+		e->change = 1;
+	}
+	else if (event.key.keysym.sym == SDLK_d && event.type == SDL_KEYDOWN)
+	{
+		;
 		e->change = 1;
 	}
 }
@@ -41,14 +61,7 @@ static void	rotating_view(t_env *e, SDL_Event event)
 void        deal_key(t_env *e, SDL_Event event)
 {
 	rotating_view(e, event);
-	if (event.key.keysym.sym == SDLK_a && event.type == SDL_KEYDOWN)
-	{
-		;
-	}
-	else if (event.key.keysym.sym == SDLK_d && event.type == SDL_KEYDOWN)
-	{
-		;
-	}
+	starffing(e, event);
 	if (event.key.keysym.sym == SDLK_w && event.type == SDL_KEYDOWN)
 	{
 		if (!(e->map[(int)e->p.pos.y][(int)(e->p.pos.x + e->p.dir.x * 0.3)] == 'M'))
@@ -65,8 +78,6 @@ void        deal_key(t_env *e, SDL_Event event)
 			e->p.pos.y -= e->p.dir.y * 0.3;
 		e->change = 1;
 	}
-	else if (event.button.type == SDL_MOUSEBUTTONDOWN)
-		dprintf(1, "x: %d, y: %d\n", event.button.x, event.button.y);
 	if (e->change == 1)
 	{
 		e->change = 0;

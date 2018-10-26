@@ -6,7 +6,7 @@
 /*   By: flombard <flombard@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/09/21 06:17:02 by flombard     #+#   ##    ##    #+#       */
-/*   Updated: 2018/10/01 15:22:06 by flombard    ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/10/26 15:59:52 by flombard    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -59,7 +59,7 @@ void			raycasting(t_env *e)
 	x = -1;
 	while (++x < SIZE)
 	{
-		camx = 2 * x / (double)SIZE - 1;
+		camx = -((x << 1) / (double)SIZE - 1);
 		raydir.x = e->p.dir.x + e->p.plane.x * camx;
 		raydir.y = e->p.dir.y + e->p.plane.y * camx;
 		onmap.x = (int)e->p.pos.x;
@@ -117,7 +117,8 @@ void			raycasting(t_env *e)
 			end = SIZE - 1;
 		wallx = (side) ? e->p.pos.x + dist * raydir.x : e->p.pos.y + dist * raydir.y;
 		wallx -= floor(wallx);
-		//dprintf(1, "%d  %f\n", x, wallx);
+		if ((side && onmap.y > e->p.pos.y) || (!side && onmap.x < e->p.pos.y))
+			wallx = 1 - wallx;
 		y = start - 1;
 		while (++y < end)
 			pixels[y * e->buffer->w + x] = ft_argb_to_rgba(wpixels[(int)(((double)(y - wstart)

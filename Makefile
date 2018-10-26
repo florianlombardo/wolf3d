@@ -6,7 +6,7 @@
 #    By: flombard <flombard@student.le-101.fr>      +:+   +:    +:    +:+      #
 #                                                  #+#   #+    #+    #+#       #
 #    Created: 2017/11/23 14:10:08 by flombard     #+#   ##    ##    #+#        #
-#    Updated: 2018/09/28 18:47:20 by flombard    ###    #+. /#+    ###.fr      #
+#    Updated: 2018/10/15 14:07:43 by flombard    ###    #+. /#+    ###.fr      #
 #                                                          /                   #
 #                                                         /                    #
 # **************************************************************************** #
@@ -25,7 +25,7 @@ SRCS = $(addprefix $(SRCS_DIR), $(SRCS_FILES))
 OBJS_DIR = objs/
 OBJS = $(addprefix $(OBJS_DIR), $(SRCS_FILES:.c=.o))
 
-INCLUDES = ./includes
+INCLUDES = ./includes/
 
 LIB_DIR = libft/
 LIB_FILE = libft.a
@@ -47,9 +47,9 @@ $(NAME): $(LIB) $(OBJS) $(INCLUDES)
 	@$(CC) $(LIB) $(SDLFLAGS) $(CFLAGS) $(OBJS) -o $(NAME)
 	@printf "\033[1;37m EXECUTABLE CREATED : $(NAME) \033[0m\n"
 
-$(OBJS_DIR)%.o: $(SRCS_DIR)%.c
+$(OBJS_DIR)%.o: $(SRCS_DIR)%.c $(INCLUDES)wolf3d.h
 	@printf "\033[47m \033[0m"
-	@$(CC) $(CFLAGS) -I$(INCLUDES) -o $@ -c $<
+	@$(CC) $(CFLAGS) -o $@ -c $<
 
 $(LIB):
 	@make -C $(LIB_DIR)

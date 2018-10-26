@@ -6,7 +6,7 @@
 /*   By: flombard <flombard@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/06/07 13:40:13 by flombard     #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/28 19:22:46 by flombard    ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/10/26 17:43:37 by flombard    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -45,6 +45,8 @@
 # define COS 0.995004
 # define PSIN 0.099833
 # define NSIN -0.099833
+# define COS45 0.707107
+# define SIN45 0.707107
 
 typedef struct		s_ipos
 {

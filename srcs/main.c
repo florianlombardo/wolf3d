@@ -6,7 +6,7 @@
 /*   By: flombard <flombard@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/06/07 13:39:15 by flombard     #+#   ##    ##    #+#       */
-/*   Updated: 2018/10/01 15:41:22 by flombard    ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/10/25 16:19:25 by flombard    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -47,9 +47,11 @@ static void		init_sdl2(t_env *e)
 		&e->window, &e->rend))
 			ft_quit(e, 1);
 	SDL_SetWindowTitle(e->window, "Wolf3d");
+	//if (!(e->icon = SDL_LoadBMP("textures/icon.bmp")))
 	if (!(e->icon = IMG_Load("textures/icon.png")))
 		ft_quit(e, 1);
 	SDL_SetWindowIcon(e->window, e->icon);
+	//if (!(e->wall = SDL_LoadBMP("textures/wall.bmp")))
 	if (!(e->wall = IMG_Load("textures/wall.png")))
 		ft_quit(e, 1);
 	if (!(e->buffer = SDL_CreateRGBSurfaceWithFormat(0, SIZE, SIZE, 32, SDL_PIXELFORMAT_RGBA8888)))
