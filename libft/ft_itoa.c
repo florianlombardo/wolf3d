@@ -3,10 +3,10 @@
 /*                                                              /             */
 /*   ft_itoa.c                                        .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: stpuget <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
+/*   By: jemagnie <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2017/12/06 14:12:08 by stpuget      #+#   ##    ##    #+#       */
-/*   Updated: 2017/12/06 14:12:09 by stpuget     ###    #+. /#+    ###.fr     */
+/*   Created: 2018/01/05 15:59:07 by jemagnie     #+#   ##    ##    #+#       */
+/*   Updated: 2018/01/05 16:02:48 by jemagnie    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -15,27 +15,5 @@
 
 char	*ft_itoa(int n)
 {
-	char	*tab;
-	size_t	i;
-
-	if (!(tab = ft_strnew(ft_intnsize(n + 1))))
-		return (0);
-	i = ft_intnsize(n) - 1;
-	if (n == -2147483648)
-	{
-		n = n / 10;
-		tab[i--] = '8';
-	}
-	if (n < 0)
-	{
-		tab[0] = '-';
-		n = -n;
-	}
-	n == 0 ? tab[0] = '0' : 0;
-	while (n != 0)
-	{
-		tab[i--] = n % 10 + '0';
-		n = n / 10;
-	}
-	return (tab);
+	return (ft_itoa_base(n, 10));
 }

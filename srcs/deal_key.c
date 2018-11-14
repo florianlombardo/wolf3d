@@ -6,7 +6,7 @@
 /*   By: flombard <flombard@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/09/21 06:17:58 by flombard     #+#   ##    ##    #+#       */
-/*   Updated: 2018/10/26 18:02:00 by flombard    ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/11/14 16:51:28 by flombard    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -38,51 +38,69 @@ static void	rotating_view(t_env *e, SDL_Event event)
 	}
 }
 
-static void	starffing(t_env *e, SDL_Event event)
+static void	strafing(t_env *e, SDL_Event event)
 {
-	double	oldx;
+	t_dpos	mvmt;
+	double	angle;
 
-	oldx = e->p.dir.x;
 	if (event.key.keysym.sym == SDLK_a && event.type == SDL_KEYDOWN)
 	{
-		printf("%f %f ", e->p.pos.x, e->p.pos.y);
-		e->p.pos.x += 0.3 * (COS45 * (e->p.dir.x - oldx) - SIN45 * (e->p.dir.y - e->p.pos.y) + oldx);
-		e->p.pos.y += 0.3 * (SIN45 * (e->p.dir.x - oldx) + COS45 * (e->p.dir.y - e->p.pos.y) + e->p.pos.y);
-		printf("%f %f\n", e->p.pos.x, e->p.pos.y);
+		angle = atan2(e->p.dir.y, e->p.dir.x) - M_PI_2;
+		mvmt.y = sin(angle);
+		mvmt.x = cos(angle);
+		if (!(e->map[(int)e->p.pos.y][(int)(e->p.pos.x + 0.3 * mvmt.x)] == 'M'))
+			e->p.pos.x += 0.3 * mvmt.x;
+		if (!(e->map[(int)(e->p.pos.y + 0.3 * mvmt.y)][(int)e->p.pos.x] == 'M'))
+			e->p.pos.y += 0.3 * mvmt.y;
 		e->change = 1;
 	}
 	else if (event.key.keysym.sym == SDLK_d && event.type == SDL_KEYDOWN)
 	{
-		;
+		angle = atan2(e->p.dir.y, e->p.dir.x) + M_PI_2;
+		mvmt.y = sin(angle);
+		mvmt.x = cos(angle);
+		if (!(e->map[(int)e->p.pos.y][(int)(e->p.pos.x + 0.3 * mvmt.x)] == 'M'))
+			e->p.pos.x += 0.3 * mvmt.x;
+		if (!(e->map[(int)(e->p.pos.y + 0.3 * mvmt.y)][(int)e->p.pos.x] == 'M'))
+			e->p.pos.y += 0.3 * mvmt.y;
 		e->change = 1;
 	}
 }
 
-void        deal_key(t_env *e, SDL_Event event)
+static void	moving(t_env *e, SDL_Event event)
 {
-	rotating_view(e, event);
-	starffing(e, event);
 	if (event.key.keysym.sym == SDLK_w && event.type == SDL_KEYDOWN)
 	{
-		if (!(e->map[(int)e->p.pos.y][(int)(e->p.pos.x + e->p.dir.x * 0.3)] == 'M'))
+		if (!(e->map[(int)e->p.pos.y][(int)(e->p.pos.x +
+			e->p.dir.x * 0.3)] == 'M'))
 			e->p.pos.x += e->p.dir.x * 0.3;
-		if (!(e->map[(int)(e->p.pos.y + e->p.dir.y * 0.3)][(int)e->p.pos.x] == 'M'))
+		if (!(e->map[(int)(e->p.pos.y + e->p.dir.y * 0.3)]
+			[(int)e->p.pos.x] == 'M'))
 			e->p.pos.y += e->p.dir.y * 0.3;
 		e->change = 1;
 	}
 	else if (event.key.keysym.sym == SDLK_s && event.type == SDL_KEYDOWN)
 	{
-		if (!(e->map[(int)e->p.pos.y][(int)(e->p.pos.x - e->p.dir.x * 0.3)] == 'M'))
+		if (!(e->map[(int)e->p.pos.y][(int)(e->p.pos.x -
+			e->p.dir.x * 0.3)] == 'M'))
 			e->p.pos.x -= e->p.dir.x * 0.3;
-		if (!(e->map[(int)(e->p.pos.y - e->p.dir.y * 0.3)][(int)e->p.pos.x] == 'M'))
+		if (!(e->map[(int)(e->p.pos.y - e->p.dir.y * 0.3)]
+			[(int)e->p.pos.x] == 'M'))
 			e->p.pos.y -= e->p.dir.y * 0.3;
 		e->change = 1;
 	}
+}
+
+void		deal_key(t_env *e, SDL_Event event)
+{
+	rotating_view(e, event);
+	strafing(e, event);
+	moving(e, event);
 	if (e->change == 1)
 	{
 		e->change = 0;
 		if (SDL_RenderClear(e->rend))
-			ft_quit(e, 1);
+			ft_quit(e, E_RENDER);
 		raycasting(e);
 	}
 }

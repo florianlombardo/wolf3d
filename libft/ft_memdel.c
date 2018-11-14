@@ -3,10 +3,10 @@
 /*                                                              /             */
 /*   ft_memdel.c                                      .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: stpuget <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
+/*   By: jemagnie <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2017/12/06 14:13:29 by stpuget      #+#   ##    ##    #+#       */
-/*   Updated: 2017/12/06 14:13:29 by stpuget     ###    #+. /#+    ###.fr     */
+/*   Created: 2018/01/05 15:59:07 by jemagnie     #+#   ##    ##    #+#       */
+/*   Updated: 2018/01/05 16:03:19 by jemagnie    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -15,9 +15,8 @@
 
 void	ft_memdel(void **ap)
 {
-	if (ap && *ap)
-	{
-		free(*ap);
-		*ap = NULL;
-	}
+	if (!ap)
+		return ;
+	free(*ap);
+	*ap = NULL;
 }

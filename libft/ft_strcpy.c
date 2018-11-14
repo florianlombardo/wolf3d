@@ -3,23 +3,39 @@
 /*                                                              /             */
 /*   ft_strcpy.c                                      .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: stpuget <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
+/*   By: jemagnie <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2017/12/06 14:15:18 by stpuget      #+#   ##    ##    #+#       */
-/*   Updated: 2017/12/06 14:15:20 by stpuget     ###    #+. /#+    ###.fr     */
+/*   Created: 2018/01/05 15:59:11 by jemagnie     #+#   ##    ##    #+#       */
+/*   Updated: 2018/09/28 22:48:37 by jemagnie    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strcpy(char *dest, const char *src)
+char	*ft_strcpy(char *dst, const char *src)
 {
-	int i;
+	unsigned long		*ld;
+	const unsigned long	*ls;
+	char				*d;
 
-	i = -1;
-	while (src[++i])
-		dest[i] = src[i];
-	dest[i] = '\0';
-	return (dest);
+	d = dst;
+	while (((unsigned long)src & 7) && ((*d++ = *src++) || 1))
+		if (!(*src) && (!(*d = '\0')))
+			return (dst);
+	ls = (unsigned long *)src;
+	ld = (unsigned long *)d;
+	while (1)
+	{
+		if (((*ls - 0x101010101010101L) & ~(*ls) & 0x8080808080808080L))
+		{
+			d = (char *)ld;
+			src = (const char *)ls;
+			while (*src)
+				*d++ = *src++;
+			*d = '\0';
+			return (dst);
+		}
+		*ld++ = *ls++;
+	}
 }

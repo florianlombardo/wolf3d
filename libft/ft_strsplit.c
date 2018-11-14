@@ -3,10 +3,10 @@
 /*                                                              /             */
 /*   ft_strsplit.c                                    .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: stpuget <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
+/*   By: jemagnie <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2017/12/06 14:16:47 by stpuget      #+#   ##    ##    #+#       */
-/*   Updated: 2017/12/06 14:16:48 by stpuget     ###    #+. /#+    ###.fr     */
+/*   Created: 2018/01/05 15:59:15 by jemagnie     #+#   ##    ##    #+#       */
+/*   Updated: 2018/01/05 15:59:15 by jemagnie    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -15,24 +15,25 @@
 
 char	**ft_strsplit(char const *s, char c)
 {
-	char	**tab;
+	char	**split;
 	size_t	i;
-	size_t	base;
+	size_t	j;
 
-	if (!s || !c)
-		return (0);
-	if (!(tab = (char **)malloc(sizeof(*tab) * (ft_sizetab(s, c)) + 1)))
-		return (0);
+	if (!s || !(split = malloc(sizeof(char *) * ft_nbword(s, c) + 1)))
+		return (NULL);
+	split[ft_nbword(s, c)] = 0;
 	i = 0;
-	base = 0;
-	while (i < ft_sizetab(s, c))
+	j = 0;
+	while (i < ft_nbword(s, c))
 	{
-		while (s[base] == c && s[base])
-			base++;
-		tab[i] = ft_strsub(s, base, ft_sizeword(s, c, base));
-		base = base + ft_sizeword(s, c, base);
+		while (s[j] == c)
+			j++;
+		if (!s[j])
+			return (split);
+		if (!(split[i] = ft_strsub(&s[j], 0, ft_wordlen(&s[j], c))))
+			return (NULL);
+		j = j + ft_wordlen(&s[j], c);
 		i++;
 	}
-	tab[i] = 0;
-	return (tab);
+	return (split);
 }

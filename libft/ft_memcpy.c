@@ -3,25 +3,31 @@
 /*                                                              /             */
 /*   ft_memcpy.c                                      .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: stpuget <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
+/*   By: jemagnie <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2017/12/06 14:13:24 by stpuget      #+#   ##    ##    #+#       */
-/*   Updated: 2017/12/06 14:13:24 by stpuget     ###    #+. /#+    ###.fr     */
+/*   Created: 2018/01/05 15:59:07 by jemagnie     #+#   ##    ##    #+#       */
+/*   Updated: 2018/09/13 18:37:33 by jemagnie    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	*ft_memcpy(void *dest, const void *src, size_t n)
+void	*ft_memcpy(void *dst, const void *src, size_t n)
 {
-	size_t i;
+	unsigned char *s1;
+	unsigned long *long1;
+	unsigned char *s2;
+	unsigned long *long2;
 
-	i = 0;
-	while (n-- > 0)
-	{
-		((unsigned char*)dest)[i] = ((unsigned char*)src)[i];
-		i++;
-	}
-	return (dest);
+	s1 = (unsigned char *)dst;
+	s2 = (unsigned char *)src;
+	while ((n % 8) && n--)
+		*s1++ = *s2++;
+	n /= 8;
+	long1 = (unsigned long *)s1;
+	long2 = (unsigned long *)s2;
+	while (n--)
+		*long1++ = *long2++;
+	return (dst);
 }

@@ -3,24 +3,41 @@
 /*                                                              /             */
 /*   ft_memchr.c                                      .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: stpuget <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
+/*   By: jemagnie <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2017/12/06 14:13:14 by stpuget      #+#   ##    ##    #+#       */
-/*   Updated: 2017/12/06 14:13:15 by stpuget     ###    #+. /#+    ###.fr     */
+/*   Created: 2018/01/05 15:59:07 by jemagnie     #+#   ##    ##    #+#       */
+/*   Updated: 2018/09/26 18:50:05 by jemagnie    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	*ft_memchr(const void *s, int c, size_t n)
+void	*ft_memchr(const void *mem, const unsigned char c, size_t n)
 {
-	size_t i;
+	unsigned long	mask;
+	unsigned long	*magic;
+	unsigned char	*cp;
+	int				i;
 
-	i = 0;
-	if (n != 0)
-		while (i < n)
-			if (((unsigned char *)s)[i++] == (unsigned char)c)
-				return ((unsigned char *)s + (i - 1));
-	return (0);
+	cp = (unsigned char *)mem;
+	while ((n % 8) && n--)
+		if (*cp++ == c)
+			return ((void *)--cp);
+	mask = ft_mask((int)c);
+	magic = (unsigned long *)cp;
+	n /= 8;
+	while (n--)
+	{
+		if ((((*magic ^ mask) - 0x0101010101010101) & 0x8080808080808080))
+		{
+			i = 8;
+			cp = (unsigned char *)magic;
+			while (i--)
+				if (*cp++ == c)
+					return ((void *)--cp);
+		}
+		++magic;
+	}
+	return (NULL);
 }

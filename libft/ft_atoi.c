@@ -3,10 +3,10 @@
 /*                                                              /             */
 /*   ft_atoi.c                                        .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: stpuget <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
+/*   By: jemagnie <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2017/12/06 14:10:12 by stpuget      #+#   ##    ##    #+#       */
-/*   Updated: 2017/12/06 14:10:16 by stpuget     ###    #+. /#+    ###.fr     */
+/*   Created: 2018/01/05 15:56:59 by jemagnie     #+#   ##    ##    #+#       */
+/*   Updated: 2018/10/02 12:53:28 by jemagnie    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -15,18 +15,16 @@
 
 int		ft_atoi(const char *str)
 {
-	int neg;
-	int nb;
-	int	i;
+	int		neg;
+	long	nb;
 
-	i = 0;
-	nb = 0;
 	neg = 1;
-	while ((str[i] > 8 && str[i] < 14) || str[i] == ' ')
-		i++;
-	if (str[i] == '-' || str[i] == '+')
-		str[i++] == '-' ? neg = -neg : neg;
-	while (str[i] >= '0' && str[i] <= '9')
-		nb = nb * 10 + str[i++] - '0';
-	return (nb * neg);
+	nb = 0;
+	while (*str == ' ' || (*str > 8 && *str < 14))
+		str++;
+	if (*str == '-' || *str == '+')
+		neg = 44 - *str++;
+	while (ft_isdigit(*str))
+		nb = nb * 10 + *str++ - '0';
+	return (neg * nb);
 }

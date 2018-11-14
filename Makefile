@@ -6,7 +6,7 @@
 #    By: flombard <flombard@student.le-101.fr>      +:+   +:    +:    +:+      #
 #                                                  #+#   #+    #+    #+#       #
 #    Created: 2017/11/23 14:10:08 by flombard     #+#   ##    ##    #+#        #
-#    Updated: 2018/10/15 14:07:43 by flombard    ###    #+. /#+    ###.fr      #
+#    Updated: 2018/11/14 15:51:16 by flombard    ###    #+. /#+    ###.fr      #
 #                                                          /                   #
 #                                                         /                    #
 # **************************************************************************** #
@@ -16,23 +16,27 @@ NAME = wolf3d
 SRCS_DIR = srcs/
 SRCS_FILES = 	main.c \
 				map.c \
-				error.c \
-				errorMap.c \
+				error_map.c \
 				deal_key.c \
-				raycasting.c
+				raycasting.c \
+				init.c \
+				quit.c \
+				load_textures.c \
+				utilities.c
 SRCS = $(addprefix $(SRCS_DIR), $(SRCS_FILES))
 
 OBJS_DIR = objs/
 OBJS = $(addprefix $(OBJS_DIR), $(SRCS_FILES:.c=.o))
 
-INCLUDES = ./includes/
+INCLUDES = includes/
 
 LIB_DIR = libft/
 LIB_FILE = libft.a
 LIB = $(addprefix $(LIB_DIR), $(LIB_FILE))
 
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -Iincludes -F./Frameworks -O3
+CFLAGS = -Wall -Wextra -Werror -I$(INCLUDES) -F./Frameworks -O3
+SEG = -fsanitize=address
 SDLFLAGS = 	-rpath ./Frameworks -F./Frameworks 	-framework SDL2 \
 												-framework SDL2_image \
 												-framework SDL2_mixer \
@@ -54,8 +58,10 @@ $(OBJS_DIR)%.o: $(SRCS_DIR)%.c $(INCLUDES)wolf3d.h
 $(LIB):
 	@make -C $(LIB_DIR)
 
+debug: $(LIB) $(OBJS) $(INCLUDES)
+	@$(CC) $(SEG) $(LIB) $(SDLFLAGS) $(CFLAGS) -g $(OBJS) -o $(NAME)
+
 clean:
-	@printf "\033[41m \033[0m"
 	@make -C $(LIB_DIR) clean
 	@$(RM) $(OBJS)
 

@@ -3,10 +3,10 @@
 /*                                                              /             */
 /*   ft_bzero.c                                       .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: stpuget <stpuget@student.le-101.fr>        +:+   +:    +:    +:+     */
+/*   By: jemagnie <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2017/12/06 14:11:30 by stpuget      #+#   ##    ##    #+#       */
-/*   Updated: 2018/08/14 17:41:50 by stpuget     ###    #+. /#+    ###.fr     */
+/*   Created: 2018/01/05 15:58:56 by jemagnie     #+#   ##    ##    #+#       */
+/*   Updated: 2018/01/05 15:58:58 by jemagnie    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -15,7 +15,5 @@
 
 void	ft_bzero(void *s, size_t n)
 {
-	if (n == 0)
-        return ;
-    ft_memset(s, 0, n);
+	ft_memset(s, 0, n);
 }

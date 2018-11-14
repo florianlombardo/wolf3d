@@ -3,10 +3,10 @@
 /*                                                              /             */
 /*   get_next_line.h                                  .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: stpuget <stpuget@student.le-101.fr>        +:+   +:    +:    +:+     */
+/*   By: jemagnie <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2018/03/21 14:57:20 by stpuget      #+#   ##    ##    #+#       */
-/*   Updated: 2018/03/21 14:57:23 by stpuget     ###    #+. /#+    ###.fr     */
+/*   Created: 2018/03/25 21:51:55 by jemagnie     #+#   ##    ##    #+#       */
+/*   Updated: 2018/09/27 18:36:31 by jemagnie    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -15,8 +15,7 @@
 # define GET_NEXT_LINE_H
 
 # define BUFF_SIZE 32
-# define ENDL '\n'
 
-int get_next_line(int const fd, char **line);
+int					get_next_line(const int fd, char **line);
 
 #endif
