@@ -1,3 +1,5 @@
+# wolf3d
+
 Project of Le 101 School.
 
 The point of this project was to recreate ID Software's Wolfenstein 3D while complying with the norm imposed by the school. We also couldn't use many external functions and libraries, making us re-code almost everything.
@@ -9,3 +11,13 @@ TODO: Adapt to all platforms and lower mouse latency by changing parsing.
 # Screenshots
 
 ![alt text](screenshots/ingame.png "In-game screenshot")
+
+# Controls
+
+| Controls | Actions |
+| --- | --- |
+| Z | Moves forward |
+| D | Moves backwards |
+| Q | Moves left |
+| S | Moves right |
+| Mouse | Look left/right |
